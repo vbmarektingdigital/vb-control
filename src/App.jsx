@@ -412,7 +412,7 @@ function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop }) {
             <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded border ${STATUS_COLORS[card.status]}`}>{card.status}</span>
           </div>
           <div className="flex items-center gap-2">
-            <GripVertical size={16} className="opacity-30 group-hover:opacity-70 cursor-grab active:cursor-grabbing transition" />
+            <GripVertical size={16} className="opacity-30 group-hover:opacity-70 cursor-pointer active:cursor-grabbing transition text-slate-400 hover:text-slate-700" />
             {card.priority === 'Alta' && (
               <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full"></span>
             )}
