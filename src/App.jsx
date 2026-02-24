@@ -112,7 +112,7 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
   .addView(uploadView)
   .enableFeature(window.google.picker.Feature.MULTISELECT_ENABLED)
   .setOAuthToken(tokenResponse.access_token)
-  .setDeveloperKey("AIzaSyCK8OnQTj8cbPXqrhnoqgHKH2LQpIDq24")
+  .setDeveloperKey("AIzaSyCK8OnQIj8cbPXqrhnqogHkH2LQPplDq24")
   .setCallback((data) => {
     if (data.action === window.google.picker.Action.PICKED) {
 
