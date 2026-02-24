@@ -108,25 +108,25 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
         .setParent(FOLDER_ID);
 
       const picker = new window.google.picker.PickerBuilder()
-        .addView(window.google.picker.ViewId.DOCS)
-        .addView(uploadView)
-        .setOAuthToken(tokenResponse.access_token)
-        .setDeveloperKey("AIzaSyCK8OnQIj8cbPXqrhnqogHkH2LQPplDq24")
-        .setCallback((data) => {
-          if (data.action === window.google.picker.Action.PICKED) {
-            const doc = data.docs[0];
+  .addView(window.google.picker.ViewId.DOCS)
+  .addView(uploadView)
+  .enableFeature(window.google.picker.Feature.MULTISELECT_ENABLED)
+  .setOAuthToken(tokenResponse.access_token)
+  .setDeveloperKey("AIzaSyCK8OnQTj8cbPXqrhnoqgHKH2LQpIDq24")
+  .setCallback((data) => {
+    if (data.action === window.google.picker.Action.PICKED) {
 
-            const fileData = {
-              id: doc.id,
-              name: doc.name,
-              url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
-              type: "file"
-            };
+      const newFiles = data.docs.map(doc => ({
+        id: doc.id,
+        name: doc.name,
+        url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
+        type: "file"
+      }));
 
-            onUpdateAttachments([...attachments, fileData]);
-          }
-        })
-        .build();
+      onUpdateAttachments([...attachments, ...newFiles]);
+    }
+  })
+  .build();
 
       picker.setVisible(true);
     }
