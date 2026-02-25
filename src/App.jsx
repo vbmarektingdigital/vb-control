@@ -241,6 +241,12 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
   <div className="space-y-2">
 
     <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
+      {comments.length === 0 && (
+  <div className="text-xs italic text-slate-400 text-center py-2">
+    -- nenhuma nota aqui --
+  </div>
+)}      
+
       {comments.map((c) => (
         <div key={c.id} className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start">
           <p className="text-slate-700 whitespace-pre-wrap pr-2">{c.text}</p>
@@ -281,6 +287,11 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
     <div className="space-y-2">
 
       <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
+        {attachments.length === 0 && (
+  <div className="text-xs italic text-slate-400 text-center py-2">
+    -- nenhum anexo aqui --
+  </div>
+)}
         {attachments.map((file) => (
           <div
             key={file.id}
