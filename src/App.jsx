@@ -116,14 +116,38 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
   .setCallback((data) => {
     if (data.action === window.google.picker.Action.PICKED) {
 
-      const newFiles = data.docs.map(doc => ({
-        id: doc.id,
-        name: doc.name,
-        url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
-        type: "file"
-      }));
+      const processFiles = async () => {
+  const newFiles = [];
 
-      onUpdateAttachments([...attachments, ...newFiles]);
+  for (const doc of data.docs) {
+    // 🔥 cria permissão pública
+    await fetch(
+      `https://www.googleapis.com/drive/v3/files/${doc.id}/permissions`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          role: "reader",
+          type: "anyone"
+        })
+      }
+    );
+
+    newFiles.push({
+      id: doc.id,
+      name: doc.name,
+      url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
+      type: "file"
+    });
+  }
+
+  onUpdateAttachments([...attachments, ...newFiles]);
+};
+
+processFiles();
     }
   })
   .build();
