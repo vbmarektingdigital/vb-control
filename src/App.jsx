@@ -228,86 +228,143 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
       </div>
 
       {isExpanded && (
-        <div className="mt-3 space-y-2">
-          <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
-            {comments.map((c) => (
-              <div key={c.id} className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start">
-                <p className="text-slate-700 whitespace-pre-wrap pr-2">{c.text}</p>
-                <button onClick={() => handleDeleteComment(c.id)} className="text-red-400 hover:text-red-600 transition">
-                  <Trash2 size={14} />
+        <div className="mt-4">
+
+  <div className="flex items-center gap-2 mb-3">
+    <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+    <span className="text-sm font-semibold text-slate-700">
+      Notas
+    </span>
+    <div className="flex-1 h-[2px] bg-slate-200 ml-2 rounded-full"></div>
+  </div>
+
+  <div className="space-y-2">
+
+    <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
+      {comments.map((c) => (
+        <div key={c.id} className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start">
+          <p className="text-slate-700 whitespace-pre-wrap pr-2">{c.text}</p>
+          <button onClick={() => handleDeleteComment(c.id)} className="text-red-400 hover:text-red-600 transition">
+            <Trash2 size={14} />
+          </button>
+        </div>
+      ))}
+    </div>
+
+    <div className="flex gap-2">
+      <input
+        value={newComment}
+        onChange={e => setNewComment(e.target.value)}
+        placeholder="Adicionar nota..."
+        className="flex-1 text-xs border p-1.5 rounded-lg outline-none focus:ring-1 focus:ring-indigo-500"
+      />
+      <button onClick={handleAddComment} className="bg-indigo-600 text-white px-3 rounded-lg">
+        +
+      </button>
+    </div>
+
+  </div>
+</div>
+)}
+
+{isAttachmentOpen && (
+  <div className="mt-6">
+
+    <div className="flex items-center gap-2 mb-3">
+      <div className="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
+      <span className="text-sm font-semibold text-slate-700">
+        Anexos
+      </span>
+      <div className="flex-1 h-[2px] bg-slate-200 ml-2 rounded-full"></div>
+    </div>
+
+    <div className="space-y-2">
+
+      <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
+        {attachments.map((file) => (
+          <div
+            key={file.id}
+            className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-center"
+          >
+            <a
+              href={file.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-700 hover:underline truncate pr-2"
+            >
+              {file.name}
+            </a>
+
+            <div className="flex items-center gap-2">
+              {file.type === "link" && (
+                <button
+                  onClick={() => handleCopyLink(file.url)}
+                  className="text-slate-500 hover:text-indigo-600 transition"
+                  title="Copiar link"
+                >
+                  <Copy size={14} />
                 </button>
-              </div>
-            ))}
+              )}
+
+              <button
+                onClick={() => handleDeleteAttachment(file.id)}
+                className="text-red-400 hover:text-red-600 transition"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <input 
-              value={newComment} 
-              onChange={e => setNewComment(e.target.value)} 
-              placeholder="Adicionar nota..." 
-              className="flex-1 text-xs border p-1.5 rounded-lg outline-none focus:ring-1 focus:ring-indigo-500" 
-            />
-            <button onClick={handleAddComment} className="bg-indigo-600 text-white px-3 rounded-lg">
-              +
+        ))}
+      </div>
+
+      <button
+        onClick={handleAddFakeAttachment}
+        className="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+      >
+        Anexar arquivo
+      </button>
+
+      <button
+        onClick={() => setIsLinkModalOpen(true)}
+        className="w-full text-xs bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 transition"
+      >
+        Anexar link
+      </button>
+
+      {isLinkModalOpen && (
+        <div className="bg-slate-100 p-3 rounded-lg space-y-2">
+          <input
+            value={newLinkName}
+            onChange={e => setNewLinkName(e.target.value)}
+            placeholder="Nome do link (opcional)"
+            className="w-full text-xs border p-1.5 rounded"
+          />
+          <input
+            value={newLinkUrl}
+            onChange={e => setNewLinkUrl(e.target.value)}
+            placeholder="Cole o link aqui..."
+            className="w-full text-xs border p-1.5 rounded"
+          />
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setIsLinkModalOpen(false)}
+              className="text-xs px-2 py-1 bg-slate-300 rounded"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleAddLinkAttachment}
+              className="text-xs px-2 py-1 bg-indigo-600 text-white rounded"
+            >
+              Salvar
             </button>
           </div>
         </div>
       )}
 
-      {isAttachmentOpen && (
-        <div className="mt-3 space-y-2">
-          <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
-            {attachments.map((file) => (
-              <div key={file.id} className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-center">
-                <a href={file.url} target="_blank" rel="noopener noreferrer" className="text-slate-700 hover:underline truncate pr-2">
-                  {file.name}
-                </a>
-                <div className="flex items-center gap-2">
-                  {/* Mostrar copiar só se for link */}
-                  {file.type === "link" && (
-                    <button onClick={() => handleCopyLink(file.url)} className="text-slate-500 hover:text-indigo-600 transition" title="Copiar link">
-                      <Copy size={14} />
-                    </button>
-                  )}
-                  <button onClick={() => handleDeleteAttachment(file.id)} className="text-red-400 hover:text-red-600 transition">
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button onClick={handleAddFakeAttachment} className="w-full text-xs bg-indigo-600 text-white py-1.5 rounded-lg hover:bg-indigo-700 transition">
-            Anexar arquivo
-          </button>
-          <button onClick={() => setIsLinkModalOpen(true)} className="w-full text-xs bg-slate-700 text-white py-1.5 rounded-lg hover:bg-slate-800 transition">
-            Anexar link
-          </button>
-          
-          {isLinkModalOpen && (
-            <div className="bg-slate-100 p-3 rounded-lg space-y-2">
-              <input 
-                value={newLinkName} 
-                onChange={e => setNewLinkName(e.target.value)} 
-                placeholder="Nome do link (opcional)" 
-                className="w-full text-xs border p-1.5 rounded" 
-              />
-              <input 
-                value={newLinkUrl} 
-                onChange={e => setNewLinkUrl(e.target.value)} 
-                placeholder="Cole o link aqui..." 
-                className="w-full text-xs border p-1.5 rounded" 
-              />
-              <div className="flex justify-end gap-2">
-                <button onClick={() => setIsLinkModalOpen(false)} className="text-xs px-2 py-1 bg-slate-300 rounded">
-                  Cancelar
-                </button>
-                <button onClick={handleAddLinkAttachment} className="text-xs px-2 py-1 bg-indigo-600 text-white rounded">
-                  Salvar
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+    </div>
+  </div>
+)}
     </div>
   );
 }
