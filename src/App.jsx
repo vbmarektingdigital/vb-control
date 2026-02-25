@@ -196,7 +196,14 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
   return (
     <div className="mt-4 border-t border-slate-100 pt-3">
       <div className="flex items-center justify-between">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="text-xs font-medium text-slate-500 flex items-center gap-1">
+        <button
+  onClick={() => setIsExpanded(!isExpanded)}
+  className={`text-xs font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-all duration-200
+    ${isExpanded
+      ? 'bg-slate-100 text-slate-800 shadow-inner scale-[0.98]'
+      : 'text-slate-500 hover:bg-slate-50'}
+  `}
+>
           <MessageSquare size={14} />
           <span>
             <span className={`${comments.length > 0 ? 'text-red-500 font-bold animate-pulse' : ''}`}>
@@ -208,7 +215,14 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        <button onClick={() => setIsAttachmentOpen(!isAttachmentOpen)} className="text-xs font-medium text-slate-500 flex items-center gap-1">
+        <button
+  onClick={() => setIsAttachmentOpen(!isAttachmentOpen)}
+  className={`text-xs font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-all duration-200
+    ${isAttachmentOpen
+      ? 'bg-slate-100 text-slate-800 shadow-inner scale-[0.98]'
+      : 'text-slate-500 hover:bg-slate-50'}
+  `}
+>
           <Paperclip size={14} />
           <span>
             <span className={`${attachments.length > 0 ? 'text-blue-600 font-bold animate-pulse' : ''}`}>
@@ -243,7 +257,7 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
     <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
       {comments.length === 0 && (
   <div className="text-xs italic text-slate-400 text-center py-2">
-    -- nenhuma nota aqui --
+    • nenhuma nota aqui •
   </div>
 )}      
 
@@ -289,7 +303,7 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
       <div className="max-h-32 overflow-y-auto space-y-2 custom-scrollbar">
         {attachments.length === 0 && (
   <div className="text-xs italic text-slate-400 text-center py-2">
-    -- nenhum anexo aqui --
+    • nenhum anexo aqui •
   </div>
 )}
         {attachments.map((file) => (
