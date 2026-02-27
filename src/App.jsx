@@ -380,22 +380,7 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
           : "max-h-0 opacity-0"
       }`}
     >
-      <span className="text-[10px] text-slate-400 italic">
-        Enviado: {file.createdAt
-          ? new Date(file.createdAt).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric'
-            })
-          : 'Data não registrada'}
-        {file.createdAt && ` às ${new Date(file.createdAt).toLocaleTimeString('pt-BR', {
-          hour: '2-digit',
-          minute: '2-digit'
-        })}`}
-        {' • '}
-        Tipo: {file.type === "link" ? "Link" : "Arquivo"}
-      </span>
-    </div>
+      </div>
 
   </div>
 
