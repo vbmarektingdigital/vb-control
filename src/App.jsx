@@ -770,8 +770,12 @@ export default function App() {
 </header>
 
       <main className="flex-1 overflow-x-auto p-6 flex gap-6 custom-scrollbar">
-        {DIAS_SEMANA.map((dia, index) => (
-          <div 
+        {DIAS_SEMANA.map((dia, index) => {
+  const dateForColumn = new Date(start);
+  dateForColumn.setDate(start.getDate() + index);
+
+  return (
+              <div 
             key={dia} 
             onDragOver={e => e.preventDefault()} 
             onDrop={() => handleDrop(dia)} 
@@ -779,11 +783,24 @@ export default function App() {
           >
             <div className="p-4 flex justify-between items-center">
               <div className="flex flex-col">
-                <h2 className="font-bold text-white">{dia}</h2>
-                {isCurrentWeek && index === todayIndex && (
-                  <div className="h-1 w-20 bg-green-500 rounded-full mt-1"></div>
-                )}
-              </div>
+  <div className="flex items-baseline gap-3">
+    <h2 className="font-bold text-white">
+      {dia}
+    </h2>
+
+    <span className="text-xs text-slate-400 font-normal">
+      {dateForColumn.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      })}
+    </span>
+  </div>
+
+  {isCurrentWeek && index === todayIndex && (
+    <div className="h-1 w-20 bg-green-500 rounded-full mt-1"></div>
+  )}
+</div>
               <div className="flex items-center gap-2">
                 <button 
                   onClick={() => deleteAllCardsInColumn(dia)} 
@@ -830,7 +847,8 @@ export default function App() {
               + NOVO CARD
             </button>
           </div>
-        ))}
+          );
+})}
       </main>
 
       <style dangerouslySetInnerHTML={{ 
