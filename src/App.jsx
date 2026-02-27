@@ -1,7 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import logo from './assets/vb-logo.png';
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, LayoutDashboard, Plus, Trash2, Edit2, Check, X, GripVertical, Building2, Tag, MessageSquare, Send, Sparkles, Loader2, Paperclip, Copy } from 'lucide-react';
+import { Search, Filter, LayoutDashboard, Plus, Trash2, Edit2, Check, X, GripVertical, Building2, Tag, MessageSquare, Send, Sparkles, Loader2, Paperclip, Info, Copy } from 'lucide-react';
 
 const GOOGLE_CLIENT_ID = "498011922575-895so7u7j83brjbkaahg7jj5l9o5ql6o.apps.googleusercontent.com";
 
@@ -59,6 +59,8 @@ async function callGeminiAPI(prompt, systemInstruction) {
 // --- COMPONENTES AUXILIARES ---
 function CommentSection({ comments = [], attachments = [], onUpdateComments, onUpdateAttachments, cardTheme, clientName }) {
   const [isExpanded, setIsExpanded] = useState(false);
+const [expandedNoteId, setExpandedNoteId] = useState(null);
+const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
   const [isAttachmentOpen, setIsAttachmentOpen] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [accessToken, setAccessToken] = useState(null);
@@ -117,11 +119,12 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
     if (data.action === window.google.picker.Action.PICKED) {
 
       const newFiles = data.docs.map(doc => ({
-        id: doc.id,
-        name: doc.name,
-        url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
-        type: "file"
-      }));
+  id: doc.id,
+  name: doc.name,
+  url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
+  type: "file",
+  createdAt: new Date().toISOString()
+}));
 
       onUpdateAttachments([...attachments, ...newFiles]);
     }
@@ -139,11 +142,12 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
     if (!newLinkUrl.trim()) return;
     
     const linkData = {
-      id: crypto.randomUUID(),
-      name: newLinkName.trim() || newLinkUrl.trim(),
-      url: newLinkUrl.startsWith("http") ? newLinkUrl.trim() : `https://${newLinkUrl.trim()}`,
-      type: "link"
-    };
+  id: crypto.randomUUID(),
+  name: newLinkName.trim() || newLinkUrl.trim(),
+  url: newLinkUrl.startsWith("http") ? newLinkUrl.trim() : `https://${newLinkUrl.trim()}`,
+  type: "link",
+  createdAt: new Date().toISOString()
+};
     
     onUpdateAttachments([...attachments, linkData]);
     setNewLinkName('');
@@ -235,13 +239,60 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
 )}      
 
       {comments.map((c) => (
-        <div key={c.id} className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start">
-          <p className="text-slate-700 whitespace-pre-wrap pr-2">{c.text}</p>
-          <button onClick={() => handleDeleteComment(c.id)} className="text-red-400 hover:text-red-600 transition">
-            <Trash2 size={14} />
-          </button>
-        </div>
-      ))}
+  <div
+    key={c.id}
+    className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start"
+  >
+    <div className="flex flex-col pr-2 flex-1">
+      <p className="text-slate-700 whitespace-pre-wrap">
+        {c.text}
+      </p>
+
+      <div
+  className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
+  expandedNoteId === c.id
+    ? "max-h-24 opacity-100 mt-1"
+    : "max-h-0 opacity-0"
+}`}
+>
+  <span className="text-[10px] text-slate-400 italic">
+    Enviado: {new Date(c.createdAt).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })} às {new Date(c.createdAt).toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    })}
+  </span>
+</div>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() =>
+          setExpandedNoteId(
+            expandedNoteId === c.id ? null : c.id
+          )
+        }
+        className={`transition duration-200 ${
+  expandedNoteId === c.id
+    ? "text-indigo-600"
+    : "text-slate-400 hover:text-slate-700"
+}`}
+      >
+        <Info size={14} />
+      </button>
+
+      <button
+        onClick={() => handleDeleteComment(c.id)}
+        className="text-red-400 hover:text-red-600 transition duration-200"
+      >
+        <Trash2 size={14} />
+      </button>
+    </div>
+  </div>
+))}
     </div>
 
     <div className="flex gap-2">
@@ -308,37 +359,81 @@ function CommentSection({ comments = [], attachments = [], onUpdateComments, onU
 )}
         {attachments.map((file) => (
           <div
-            key={file.id}
-            className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-center"
-          >
-            <a
-              href={file.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-700 hover:underline truncate pr-2"
-            >
-              {file.name}
-            </a>
+  key={file.id}
+  className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start"
+>
+  <div className="flex flex-col pr-2 flex-1">
 
-            <div className="flex items-center gap-2">
-              {file.type === "link" && (
-                <button
-                  onClick={() => handleCopyLink(file.url)}
-                  className="text-slate-500 hover:text-indigo-600 transition"
-                  title="Copiar link"
-                >
-                  <Copy size={14} />
-                </button>
-              )}
+    <a
+      href={file.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-slate-700 hover:underline truncate"
+    >
+      {file.name}
+    </a>
 
-              <button
-                onClick={() => handleDeleteAttachment(file.id)}
-                className="text-red-400 hover:text-red-600 transition"
-              >
-                <Trash2 size={14} />
-              </button>
-            </div>
-          </div>
+    <div
+      className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
+        expandedAttachmentId === file.id
+          ? "max-h-24 opacity-100 mt-1"
+          : "max-h-0 opacity-0"
+      }`}
+    >
+      <span className="text-[10px] text-slate-400 italic">
+        Enviado: {file.createdAt
+          ? new Date(file.createdAt).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric'
+            })
+          : 'Data não registrada'}
+        {file.createdAt && ` às ${new Date(file.createdAt).toLocaleTimeString('pt-BR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        })}`}
+        {' • '}
+        Tipo: {file.type === "link" ? "Link" : "Arquivo"}
+      </span>
+    </div>
+
+  </div>
+
+  <div className="flex items-center gap-2">
+
+    <button
+      onClick={() =>
+        setExpandedAttachmentId(
+          expandedAttachmentId === file.id ? null : file.id
+        )
+      }
+      className={`transition duration-200 ${
+        expandedAttachmentId === file.id
+          ? "text-indigo-600"
+          : "text-slate-400 hover:text-slate-700"
+      }`}
+    >
+      <Info size={14} />
+    </button>
+
+    {file.type === "link" && (
+      <button
+        onClick={() => handleCopyLink(file.url)}
+        className="text-slate-500 hover:text-indigo-600 transition"
+      >
+        <Copy size={14} />
+      </button>
+    )}
+
+    <button
+      onClick={() => handleDeleteAttachment(file.id)}
+      className="text-red-400 hover:text-red-600 transition"
+    >
+      <Trash2 size={14} />
+    </button>
+
+  </div>
+</div>
         ))}
       </div>
 
