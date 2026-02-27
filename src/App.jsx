@@ -788,7 +788,7 @@ export default function App() {
       {dia}
     </h2>
 
-    <span className="text-xs text-slate-400 font-normal">
+    <span className="text-xs text-zinc-400 font-normal">
       {dateForColumn.toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: 'long',
