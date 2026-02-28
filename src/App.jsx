@@ -787,45 +787,76 @@ export default function App() {
       </div>
     </div>
 
-    {/* Bloco 2: DATA (Reduzido e compactado para caber no celular sem barra de rolagem) */}
-    <div className="bg-[#1f1f1f] rounded-xl px-3 py-2 md:px-5 md:py-3 flex items-center justify-center gap-2 md:gap-4 shadow-lg md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 whitespace-nowrap mx-auto w-[max-content] md:w-auto">
+{/* BLOCO 2 – CALENDÁRIO SEMANAL VISUAL */}
+<div className="flex flex-col items-center gap-2 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-      <button
-        onClick={goToPreviousWeek}
-        className="px-2 py-1 md:px-3 md:py-1.5 text-xs md:text-sm text-white bg-[#4f39f6] hover:bg-[#3f2de0] rounded-lg transition shrink-0"
-      >
-        ←
-      </button>
+  {/* Semana número */}
+  <span className="text-xs text-zinc-400 tracking-widest">
+    SEMANA {weekId.split('-W')[1]}
+  </span>
 
-      <div className="text-xs md:text-sm text-white font-medium whitespace-nowrap">
-        <span className="font-bold text-[#f9a705]">
-          {start.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
-        </span>
-        {' '}a{' '}
-        <span className="font-bold text-[#f9a705]">
-          {end.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
-        </span>
-        {' '}de{' '}
-        <span className="font-semibold">
-          {start.getFullYear()}
-        </span>
-      </div>
+  <div className="flex items-center gap-4">
 
-      <button
-        onClick={goToNextWeek}
-        className="px-2 py-1 md:px-3 md:py-1.5 text-xs md:text-sm text-white bg-[#4f39f6] hover:bg-[#3f2de0] rounded-lg transition shrink-0"
-      >
-        →
-      </button>
+    {/* Seta esquerda */}
+    <button
+      onClick={goToPreviousWeek}
+      className="text-[#6c5ce7] hover:text-[#4f39f6] transition"
+    >
+      ‹
+    </button>
 
-      <button
-        onClick={goToCurrentWeek}
-        className="px-2 py-1 md:px-3 md:py-1.5 text-xs md:text-sm font-semibold bg-[#f9a705] text-black rounded-lg hover:opacity-90 transition shrink-0"
-      >
-        Hoje
-      </button>
+    {/* Strip da semana */}
+    <div className="flex bg-[#1f1f1f] rounded-2xl px-4 py-2 gap-6 shadow-lg">
 
-    </div>
+      {DIAS_SEMANA.map((dia, index) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
+
+        const isToday =
+          isCurrentWeek && index === todayIndex;
+
+        return (
+          <div
+            key={dia}
+            className={`flex flex-col items-center text-sm ${
+              isToday
+                ? "bg-[#f9a705] text-black px-3 py-1 rounded-xl font-bold"
+                : "text-white"
+            }`}
+          >
+            <span className="text-xs uppercase tracking-wide">
+              {['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'][index]}
+            </span>
+            <span className="text-lg font-semibold">
+              {date.getDate().toString().padStart(2, '0')}
+            </span>
+          </div>
+        );
+      })}
+
+    </div>
+
+    {/* Seta direita */}
+    <button
+      onClick={goToNextWeek}
+      className="text-[#6c5ce7] hover:text-[#4f39f6] transition"
+    >
+      ›
+    </button>
+
+    {/* Botão Hoje */}
+    {!isCurrentWeek && (
+      <button
+        onClick={goToCurrentWeek}
+        className="flex items-center gap-2 bg-[#2b2b2b] border border-[#3a3a3a] text-white px-3 py-1 rounded-full text-sm hover:bg-[#3a3a3a] transition"
+      >
+        <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+        Hoje
+      </button>
+    )}
+
+  </div>
+</div>
 
     {/* Bloco 3: FILTROS */}
     <div className="flex gap-2 w-full md:w-auto">
