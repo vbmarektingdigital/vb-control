@@ -791,29 +791,41 @@ export default function App() {
 
 <div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  <div className="flex items-center gap-2">
+  <div className="flex items-center gap-3">
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-       className="text-[#6c5ce7] text-3xl md:text-4xl leading-none hover:scale-110 transition"
+      className="text-[#6c5ce7] hover:scale-110 transition"
     >
-      ‹
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
     </button>
 
     {/* Strip */}
-    <div className="
-      flex items-center 
-      gap-1 md:gap-1.5 
-      px-2 md:px-3 
-      py-1 
-      rounded-2xl 
-      bg-[#4a4a4a]/50 
-      backdrop-blur-md 
-      border border-[#5a5a5a]/40
-      max-w-[95vw]
-    ">
-
+    <div
+      className="
+        flex items-center 
+        gap-1 md:gap-1.5 
+        px-2 md:px-3 
+        py-1 
+        rounded-2xl 
+        bg-[#4a4a4a]/50 
+        backdrop-blur-md 
+        border border-[#5a5a5a]/40
+        max-w-[95vw]
+      "
+    >
       {DIAS_SEMANA.map((dia, index) => {
         const date = new Date(start);
         date.setDate(start.getDate() + index);
@@ -856,16 +868,40 @@ export default function App() {
           </div>
         );
       })}
-
     </div>
 
-    {/* Seta direita */}
-    <button
-      onClick={goToNextWeek}
-      className="text-[#6c5ce7] text-3xl md:text-4xl leading-none hover:scale-110 transition"
-    >
-      ›
-    </button>
+    {/* Seta direita + Hoje */}
+    <div className="flex items-center gap-4">
+
+      <button
+        onClick={goToNextWeek}
+        className="text-[#6c5ce7] hover:scale-110 transition"
+      >
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      {!isCurrentWeek && (
+        <button
+          onClick={goToCurrentWeek}
+          className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-4 py-2 rounded-full text-sm hover:bg-[#3a3a3a] transition"
+        >
+          <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
+          Hoje
+        </button>
+      )}
+
+    </div>
 
   </div>
 
