@@ -826,15 +826,29 @@ export default function App() {
       key={dia}
       className={`flex flex-col items-center justify-center transition-all
         ${isToday
-          ? "bg-[#f9a705] text-black px-3 py-2 rounded-xl font-bold shadow-md"
-          : "text-white"
+          ? "bg-[#E6CF82] px-4 py-3 rounded-xl shadow-sm"
+          : ""
         }`}
     >
-      <span className={`text-[12px] tracking-wide ${isToday ? "uppercase" : ""}`}>
+      {/* DIA DA SEMANA */}
+      <span
+        className={`text-[12px] tracking-wide ${
+          isToday
+            ? "uppercase font-bold text-black"
+            : "font-medium text-zinc-300"
+        }`}
+      >
         {diasAbrev[index]}
       </span>
 
-      <span className="text-lg font-semibold leading-none">
+      {/* NÚMERO */}
+      <span
+        className={`leading-none ${
+          isToday
+            ? "text-xl font-extrabold text-black"
+            : "text-lg font-medium text-zinc-200"
+        }`}
+      >
         {date.getDate().toString().padStart(2, '0')}
       </span>
     </div>
