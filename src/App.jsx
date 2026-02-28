@@ -787,24 +787,25 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO RESPONSIVO */}
+{/* BLOCO 2 – CALENDÁRIO RESPONSIVO (SEM HOJE) */}
 
 <div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  <div className="flex items-center gap-3">
+  <div className="flex items-center gap-2 md:gap-3">
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] hover:scale-110 transition"
+      className="text-[#6c5ce7] hover:scale-110 transition flex-shrink-0"
     >
       <svg
-        width="40"
-        height="40"
+        width="28"
+        height="28"
+        className="md:w-10 md:h-10"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2.8"
+        strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -816,14 +817,14 @@ export default function App() {
     <div
       className="
         flex items-center 
-        gap-1 md:gap-1.5 
-        px-2 md:px-3 
-        py-1 
+        gap-1
+        px-2
+        py-1
         rounded-2xl 
         bg-[#4a4a4a]/50 
         backdrop-blur-md 
         border border-[#5a5a5a]/40
-        max-w-[95vw]
+        max-w-[92vw]
       "
     >
       {DIAS_SEMANA.map((dia, index) => {
@@ -838,7 +839,7 @@ export default function App() {
         return (
           <div
             key={dia}
-            className="px-1 py-1 flex items-center justify-center"
+            className="px-0.5 md:px-1 py-1 flex items-center justify-center"
           >
             <div
               className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
@@ -846,7 +847,7 @@ export default function App() {
               `}
             >
               <span
-                className={`text-[10px] md:text-[11px] ${
+                className={`text-[9px] md:text-[11px] ${
                   isToday
                     ? "uppercase font-bold text-zinc-800"
                     : "font-medium text-zinc-300"
@@ -858,8 +859,8 @@ export default function App() {
               <span
                 className={`leading-none ${
                   isToday
-                    ? "text-base md:text-lg font-extrabold text-zinc-800"
-                    : "text-xs md:text-sm font-normal text-zinc-300"
+                    ? "text-sm md:text-lg font-extrabold text-zinc-800"
+                    : "text-[11px] md:text-sm font-normal text-zinc-300"
                 }`}
               >
                 {date.getDate().toString().padStart(2, '0')}
@@ -870,38 +871,25 @@ export default function App() {
       })}
     </div>
 
-    {/* Seta direita + Hoje */}
-    <div className="flex items-center gap-4">
-
-      <button
-        onClick={goToNextWeek}
-        className="text-[#6c5ce7] hover:scale-110 transition"
+    {/* Seta direita */}
+    <button
+      onClick={goToNextWeek}
+      className="text-[#6c5ce7] hover:scale-110 transition flex-shrink-0"
+    >
+      <svg
+        width="28"
+        height="28"
+        className="md:w-10 md:h-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
-
-      {!isCurrentWeek && (
-        <button
-          onClick={goToCurrentWeek}
-          className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-4 py-2 rounded-full text-sm hover:bg-[#3a3a3a] transition"
-        >
-          <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
-          Hoje
-        </button>
-      )}
-
-    </div>
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
 
   </div>
 
