@@ -820,10 +820,10 @@ export default function App() {
   return (
     <div
       key={dia}
-      className="w-[60px] h-[60px] flex items-center justify-center"
+      className="px-3 py-2 flex items-center justify-center"
     >
       <div
-        className={`flex flex-col items-center justify-center w-full h-full rounded-xl transition-all
+        className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all
           ${isToday ? "bg-[#E6CF82]" : ""}
         `}
       >
