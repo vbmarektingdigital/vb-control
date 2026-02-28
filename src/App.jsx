@@ -796,7 +796,7 @@ export default function App() {
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] text-lg md:text-xl"
+       className="text-[#6c5ce7] text-3xl md:text-4xl leading-none hover:scale-110 transition"
     >
       ‹
     </button>
@@ -862,7 +862,7 @@ export default function App() {
     {/* Seta direita */}
     <button
       onClick={goToNextWeek}
-      className="text-[#6c5ce7] text-lg md:text-xl"
+      className="text-[#6c5ce7] text-3xl md:text-4xl leading-none hover:scale-110 transition"
     >
       ›
     </button>
