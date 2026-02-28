@@ -787,20 +787,21 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO FINAL MOBILE + DESKTOP */}
+{/* BLOCO 2 – RESPONSIVO CORRIGIDO */}
 
-<div className="w-full flex justify-center px-2 md:px-0 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+<div className="w-full flex flex-col items-center gap-3 md:flex-row md:justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  <div className="flex items-center gap-3">
+  {/* Linha principal: setas + strip */}
+  <div className="w-full flex items-center justify-center gap-2 px-2">
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] hover:scale-110 transition"
+      className="text-[#6c5ce7] flex-shrink-0"
     >
       <svg
-        width="42"
-        height="42"
+        width="34"
+        height="34"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -816,13 +817,15 @@ export default function App() {
     <div
       className="
         flex items-center 
-        gap-1.5
-        px-3
+        gap-1
+        px-2
         py-1
         rounded-2xl 
         bg-[#4a4a4a]/60
         backdrop-blur-md 
         border border-[#5a5a5a]/40
+        overflow-hidden
+        max-w-full
       "
     >
       {DIAS_SEMANA.map((dia, index) => {
@@ -837,7 +840,7 @@ export default function App() {
         return (
           <div
             key={dia}
-            className="px-1 py-1 flex items-center justify-center"
+            className="px-1 flex items-center justify-center"
           >
             <div
               className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
@@ -845,7 +848,7 @@ export default function App() {
               `}
             >
               <span
-                className={`text-[11px] ${
+                className={`text-[10px] ${
                   isToday
                     ? "uppercase font-bold text-zinc-800"
                     : "font-medium text-zinc-300"
@@ -857,8 +860,8 @@ export default function App() {
               <span
                 className={`leading-none ${
                   isToday
-                    ? "text-lg font-extrabold text-zinc-800"
-                    : "text-sm font-normal text-zinc-300"
+                    ? "text-base font-extrabold text-zinc-800"
+                    : "text-xs font-normal text-zinc-300"
                 }`}
               >
                 {date.getDate().toString().padStart(2, '0')}
@@ -869,50 +872,46 @@ export default function App() {
       })}
     </div>
 
-    {/* Seta direita + Hoje */}
-    <div className="flex items-center gap-3">
-
-      <button
-        onClick={goToNextWeek}
-        className="text-[#6c5ce7] hover:scale-110 transition"
+    {/* Seta direita */}
+    <button
+      onClick={goToNextWeek}
+      className="text-[#6c5ce7] flex-shrink-0"
+    >
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <svg
-          width="42"
-          height="42"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
-
-      {/* HOJE SEMPRE VISÍVEL */}
-      <button
-        onClick={goToCurrentWeek}
-        className="
-          flex items-center gap-2
-          bg-[#3E5664]/60
-          backdrop-blur-md
-          text-white
-          px-4 py-2
-          rounded-full
-          text-sm
-          border border-white/10
-          hover:bg-[#3E5664]/80
-          transition
-        "
-      >
-        <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
-        Hoje
-      </button>
-
-    </div>
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
 
   </div>
+
+  {/* Botão Hoje separado no mobile */}
+  <button
+    onClick={goToCurrentWeek}
+    className="
+      flex items-center gap-2
+      bg-[#3E5664]/60
+      backdrop-blur-md
+      text-white
+      px-4 py-2
+      rounded-full
+      text-sm
+      border border-white/10
+      hover:bg-[#3E5664]/80
+      transition
+    "
+  >
+    <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
+    Hoje
+  </button>
 
 </div>
 
