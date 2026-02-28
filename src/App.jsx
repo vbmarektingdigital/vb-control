@@ -787,12 +787,12 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – RESPONSIVO CORRIGIDO */}
+{/* BLOCO 2 – MOBILE CORRIGIDO */}
 
-<div className="w-full flex flex-col items-center gap-3 md:flex-row md:justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+<div className="w-full flex flex-col items-center gap-3">
 
-  {/* Linha principal: setas + strip */}
-  <div className="w-full flex items-center justify-center gap-2 px-2">
+  {/* Linha principal */}
+  <div className="w-full flex items-center justify-between px-2 md:justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
     {/* Seta esquerda */}
     <button
@@ -800,8 +800,8 @@ export default function App() {
       className="text-[#6c5ce7] flex-shrink-0"
     >
       <svg
-        width="34"
-        height="34"
+        width="32"
+        height="32"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -813,63 +813,65 @@ export default function App() {
       </svg>
     </button>
 
-    {/* Strip */}
-    <div
-      className="
-        flex items-center 
-        gap-1
-        px-2
-        py-1
-        rounded-2xl 
-        bg-[#4a4a4a]/60
-        backdrop-blur-md 
-        border border-[#5a5a5a]/40
-        overflow-hidden
-        max-w-full
-      "
-    >
-      {DIAS_SEMANA.map((dia, index) => {
-        const date = new Date(start);
-        date.setDate(start.getDate() + index);
+    {/* Container de scroll */}
+    <div className="flex-1 overflow-x-auto mx-2">
+      <div
+        className="
+          inline-flex
+          items-center
+          gap-1
+          px-2
+          py-1
+          rounded-2xl 
+          bg-[#4a4a4a]/60
+          backdrop-blur-md 
+          border border-[#5a5a5a]/40
+          min-w-max
+        "
+      >
+        {DIAS_SEMANA.map((dia, index) => {
+          const date = new Date(start);
+          date.setDate(start.getDate() + index);
 
-        const isToday =
-          isCurrentWeek && index === todayIndex;
+          const isToday =
+            isCurrentWeek && index === todayIndex;
 
-        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+          const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 
-        return (
-          <div
-            key={dia}
-            className="px-1 flex items-center justify-center"
-          >
+          return (
             <div
-              className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
-                ${isToday ? "bg-[#E4D08A]" : ""}
-              `}
+              key={dia}
+              className="px-1 flex items-center justify-center"
             >
-              <span
-                className={`text-[10px] ${
-                  isToday
-                    ? "uppercase font-bold text-zinc-800"
-                    : "font-medium text-zinc-300"
-                }`}
+              <div
+                className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
+                  ${isToday ? "bg-[#E4D08A]" : ""}
+                `}
               >
-                {diasAbrev[index]}
-              </span>
+                <span
+                  className={`text-[10px] ${
+                    isToday
+                      ? "uppercase font-bold text-zinc-800"
+                      : "font-medium text-zinc-300"
+                  }`}
+                >
+                  {diasAbrev[index]}
+                </span>
 
-              <span
-                className={`leading-none ${
-                  isToday
-                    ? "text-base font-extrabold text-zinc-800"
-                    : "text-xs font-normal text-zinc-300"
-                }`}
-              >
-                {date.getDate().toString().padStart(2, '0')}
-              </span>
+                <span
+                  className={`leading-none ${
+                    isToday
+                      ? "text-base font-extrabold text-zinc-800"
+                      : "text-xs font-normal text-zinc-300"
+                  }`}
+                >
+                  {date.getDate().toString().padStart(2, '0')}
+                </span>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
 
     {/* Seta direita */}
@@ -878,8 +880,8 @@ export default function App() {
       className="text-[#6c5ce7] flex-shrink-0"
     >
       <svg
-        width="34"
-        height="34"
+        width="32"
+        height="32"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -893,7 +895,7 @@ export default function App() {
 
   </div>
 
-  {/* Botão Hoje separado no mobile */}
+  {/* Botão Hoje */}
   <button
     onClick={goToCurrentWeek}
     className="
