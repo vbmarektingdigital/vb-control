@@ -806,7 +806,7 @@ export default function App() {
 
     {/* Strip */}
     <div className="flex items-center gap-4 px-5 py-2 rounded-2xl 
-  bg-[#3a3a3a]/60 
+  bg-[#4a4a4a]/50 
   backdrop-blur-md 
   border border-[#5a5a5a]/40 
   shadow-inner"
