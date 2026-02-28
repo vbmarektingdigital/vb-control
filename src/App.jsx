@@ -787,25 +787,24 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – MOBILE CORRIGIDO */}
+{/* BLOCO 2 – CALENDÁRIO RESPONSIVO */}
 
-<div className="w-full flex flex-col items-center gap-3">
+<div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  {/* Linha principal */}
-  <div className="w-full flex items-center justify-between px-2 md:justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+  <div className="flex items-center gap-3">
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] flex-shrink-0"
+      className="text-[#6c5ce7] hover:scale-110 transition"
     >
       <svg
-        width="32"
-        height="32"
+        width="40"
+        height="40"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="3"
+        strokeWidth="2.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -813,107 +812,98 @@ export default function App() {
       </svg>
     </button>
 
-    {/* Container de scroll */}
-    <div className="flex-1 overflow-x-auto mx-2">
-      <div
-        className="
-          inline-flex
-          items-center
-          gap-1
-          px-2
-          py-1
-          rounded-2xl 
-          bg-[#4a4a4a]/60
-          backdrop-blur-md 
-          border border-[#5a5a5a]/40
-          min-w-max
-        "
-      >
-        {DIAS_SEMANA.map((dia, index) => {
-          const date = new Date(start);
-          date.setDate(start.getDate() + index);
+    {/* Strip */}
+    <div
+      className="
+        flex items-center 
+        gap-1 md:gap-1.5 
+        px-2 md:px-3 
+        py-1 
+        rounded-2xl 
+        bg-[#4a4a4a]/50 
+        backdrop-blur-md 
+        border border-[#5a5a5a]/40
+        max-w-[95vw]
+      "
+    >
+      {DIAS_SEMANA.map((dia, index) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
 
-          const isToday =
-            isCurrentWeek && index === todayIndex;
+        const isToday =
+          isCurrentWeek && index === todayIndex;
 
-          const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 
-          return (
+        return (
+          <div
+            key={dia}
+            className="px-1 py-1 flex items-center justify-center"
+          >
             <div
-              key={dia}
-              className="px-1 flex items-center justify-center"
+              className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
+                ${isToday ? "bg-[#E4D08A]" : ""}
+              `}
             >
-              <div
-                className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
-                  ${isToday ? "bg-[#E4D08A]" : ""}
-                `}
+              <span
+                className={`text-[10px] md:text-[11px] ${
+                  isToday
+                    ? "uppercase font-bold text-zinc-800"
+                    : "font-medium text-zinc-300"
+                }`}
               >
-                <span
-                  className={`text-[10px] ${
-                    isToday
-                      ? "uppercase font-bold text-zinc-800"
-                      : "font-medium text-zinc-300"
-                  }`}
-                >
-                  {diasAbrev[index]}
-                </span>
+                {diasAbrev[index]}
+              </span>
 
-                <span
-                  className={`leading-none ${
-                    isToday
-                      ? "text-base font-extrabold text-zinc-800"
-                      : "text-xs font-normal text-zinc-300"
-                  }`}
-                >
-                  {date.getDate().toString().padStart(2, '0')}
-                </span>
-              </div>
+              <span
+                className={`leading-none ${
+                  isToday
+                    ? "text-base md:text-lg font-extrabold text-zinc-800"
+                    : "text-xs md:text-sm font-normal text-zinc-300"
+                }`}
+              >
+                {date.getDate().toString().padStart(2, '0')}
+              </span>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
 
-    {/* Seta direita */}
-    <button
-      onClick={goToNextWeek}
-      className="text-[#6c5ce7] flex-shrink-0"
-    >
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    {/* Seta direita + Hoje */}
+    <div className="flex items-center gap-4">
+
+      <button
+        onClick={goToNextWeek}
+        className="text-[#6c5ce7] hover:scale-110 transition"
       >
-        <polyline points="9 18 15 12 9 6" />
-      </svg>
-    </button>
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      {!isCurrentWeek && (
+        <button
+          onClick={goToCurrentWeek}
+          className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-4 py-2 rounded-full text-sm hover:bg-[#3a3a3a] transition"
+        >
+          <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
+          Hoje
+        </button>
+      )}
+
+    </div>
 
   </div>
-
-  {/* Botão Hoje */}
-  <button
-    onClick={goToCurrentWeek}
-    className="
-      flex items-center gap-2
-      bg-[#3E5664]/60
-      backdrop-blur-md
-      text-white
-      px-4 py-2
-      rounded-full
-      text-sm
-      border border-white/10
-      hover:bg-[#3E5664]/80
-      transition
-    "
-  >
-    <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
-    Hoje
-  </button>
 
 </div>
 
