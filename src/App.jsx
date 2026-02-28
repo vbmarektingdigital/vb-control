@@ -787,90 +787,87 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO FINAL */}
+{/* BLOCO 2 – CALENDÁRIO RESPONSIVO */}
 
-<div className="flex items-center gap-4 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+<div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  {/* Seta esquerda */}
-  <button
-    onClick={goToPreviousWeek}
-    className="text-[#6c5ce7] text-xl hover:scale-110 transition"
-  >
-    ‹
-  </button>
+  <div className="flex items-center gap-2">
 
-  {/* Strip */}
-  <div className="flex items-center gap-1.5 px-3 py-1 rounded-2xl 
-    bg-[#4a4a4a]/50 
-    backdrop-blur-md 
-    border border-[#5a5a5a]/40"
-  >
+    {/* Seta esquerda */}
+    <button
+      onClick={goToPreviousWeek}
+      className="text-[#6c5ce7] text-lg md:text-xl"
+    >
+      ‹
+    </button>
 
-    {DIAS_SEMANA.map((dia, index) => {
-      const date = new Date(start);
-      date.setDate(start.getDate() + index);
+    {/* Strip */}
+    <div className="
+      flex items-center 
+      gap-1 md:gap-1.5 
+      px-2 md:px-3 
+      py-1 
+      rounded-2xl 
+      bg-[#4a4a4a]/50 
+      backdrop-blur-md 
+      border border-[#5a5a5a]/40
+      max-w-[95vw]
+    ">
 
-      const isToday =
-        isCurrentWeek && index === todayIndex;
+      {DIAS_SEMANA.map((dia, index) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
 
-      const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        const isToday =
+          isCurrentWeek && index === todayIndex;
 
-      return (
-        <div
-          key={dia}
-          className="px-1.5 py-1 flex items-center justify-center"
-        >
+        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+        return (
           <div
-            className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
-              ${isToday ? "bg-[#E4D08A]" : ""}
-            `}
+            key={dia}
+            className="px-1 py-1 flex items-center justify-center"
           >
-            {/* Dia da semana */}
-            <span
-              className={`text-[11px] ${
-                isToday
-                  ? "uppercase font-bold text-zinc-800"
-                  : "font-medium text-zinc-300"
-              }`}
+            <div
+              className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
+                ${isToday ? "bg-[#E4D08A]" : ""}
+              `}
             >
-              {diasAbrev[index]}
-            </span>
+              <span
+                className={`text-[10px] md:text-[11px] ${
+                  isToday
+                    ? "uppercase font-bold text-zinc-800"
+                    : "font-medium text-zinc-300"
+                }`}
+              >
+                {diasAbrev[index]}
+              </span>
 
-            {/* Número */}
-            <span
-              className={`leading-none ${
-                isToday
-                  ? "text-lg font-extrabold text-zinc-800"
-                  : "text-sm font-normal text-zinc-300"
-              }`}
-            >
-              {date.getDate().toString().padStart(2, '0')}
-            </span>
+              <span
+                className={`leading-none ${
+                  isToday
+                    ? "text-base md:text-lg font-extrabold text-zinc-800"
+                    : "text-xs md:text-sm font-normal text-zinc-300"
+                }`}
+              >
+                {date.getDate().toString().padStart(2, '0')}
+              </span>
+            </div>
           </div>
-        </div>
-      );
-    })}
+        );
+      })}
+
+    </div>
+
+    {/* Seta direita */}
+    <button
+      onClick={goToNextWeek}
+      className="text-[#6c5ce7] text-lg md:text-xl"
+    >
+      ›
+    </button>
 
   </div>
-
-  {/* Seta direita */}
-  <button
-    onClick={goToNextWeek}
-    className="text-[#6c5ce7] text-xl hover:scale-110 transition"
-  >
-    ›
-  </button>
-
-  {/* Botão Hoje */}
-  {!isCurrentWeek && (
-    <button
-      onClick={goToCurrentWeek}
-      className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-4 py-1 rounded-full text-sm hover:bg-[#3a3a3a] transition"
-    >
-      <span className="w-2 h-2 bg-[#FF6A23] rounded-full"></span>
-      Hoje
-    </button>
-  )}
 
 </div>
 
