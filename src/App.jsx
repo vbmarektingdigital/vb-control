@@ -789,84 +789,76 @@ export default function App() {
 
 {/* BLOCO 2 – CALENDÁRIO REFINADO */}
 <div className="flex items-center gap-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-
-  <div className="flex items-center gap-6">
+  <div className="flex items-center gap-4"> {/* Ajustado o gap para aproximar as setas */}
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] text-2xl font-light hover:scale-110 transition"
+      className="text-[#6c5ce7] p-2 hover:scale-110 hover:text-[#8376eb] transition flex items-center justify-center"
     >
-      ‹
+      <svg width="12" height="20" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 12L12 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
     </button>
 
-    {/* Strip */}
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-2xl 
-  bg-[#4a4a4a]/50 
-  backdrop-blur-md 
-  border border-[#5a5a5a]/40"
->
-
+    {/* Strip do Calendário */}
+    <div className="flex items-center gap-1 px-2 py-2 rounded-full bg-[#2A2A2C] shadow-lg">
       {DIAS_SEMANA.map((dia, index) => {
-  const date = new Date(start);
-  date.setDate(start.getDate() + index);
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
 
-  const isToday =
-    isCurrentWeek && index === todayIndex;
+        const isToday = isCurrentWeek && index === todayIndex;
+        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 
-  const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        return (
+          <div
+            key={dia}
+            className={`flex flex-col items-center justify-center min-w-[52px] py-2 rounded-[20px] transition-all duration-300 cursor-pointer ${
+              isToday ? "bg-[#E6CF82] shadow-md" : "hover:bg-white/5"
+            }`}
+          >
+            <span
+              className={`text-[13px] mb-0.5 ${
+                isToday
+                  ? "uppercase font-bold text-zinc-900"
+                  : "font-medium text-zinc-400"
+              }`}
+            >
+              {diasAbrev[index]}
+            </span>
 
-  return (
-    <div
-      key={dia}
-      className="px-1.5 py-1 flex items-center justify-center"
-    >
-      <div
-        className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
-          ${isToday ? "bg-[#E6CF82]" : ""}
-        `}
-      >
-        <span
-          className={`text-[12px] ${
-            isToday
-              ? "uppercase font-bold text-zinc-800"
-              : "font-medium text-zinc-300"
-          }`}
-        >
-          {diasAbrev[index]}
-        </span>
-
-        <span
-          className={`leading-none ${
-            isToday
-              ? "text-xl font-extrabold text-zinc-800"
-              : "text-base font-normal text-zinc-300"
-          }`}
-        >
-          {date.getDate().toString().padStart(2, '0')}
-        </span>
-      </div>
-    </div>
-  );
-})}
-
+            <span
+              className={`leading-none ${
+                isToday
+                  ? "text-[22px] font-bold text-zinc-900"
+                  : "text-[22px] font-normal text-zinc-100"
+              }`}
+            >
+              {date.getDate().toString().padStart(2, '0')}
+            </span>
+          </div>
+        );
+      })}
     </div>
 
     {/* Seta direita */}
     <button
       onClick={goToNextWeek}
-      className="text-[#6c5ce7] text-2xl font-light hover:scale-110 transition"
+      className="text-[#6c5ce7] p-2 hover:scale-110 hover:text-[#8376eb] transition flex items-center justify-center"
     >
-      ›
+      <svg width="12" height="20" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 2L12 12L2 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
     </button>
 
     {/* Botão Hoje */}
     {!isCurrentWeek && (
       <button
         onClick={goToCurrentWeek}
-        className="flex items-center gap-2 bg-[#3a3a3a] text-white px-4 py-1 rounded-full text-sm hover:bg-[#4a4a4a] transition"
+        className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[#3f3f41] transition ml-2 shadow-sm"
       >
-        <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+        {/* Usando uma cor mais puxada para o amarelo/laranja do mockup */}
+        <span className="w-2 h-2 bg-[#F5A623] rounded-full shadow-[0_0_4px_rgba(245,166,35,0.6)]"></span>
         Hoje
       </button>
     )}
