@@ -820,33 +820,33 @@ export default function App() {
   return (
     <div
       key={dia}
-      className={`flex flex-col items-center justify-center transition-all
-        ${isToday
-          ? "bg-[#E6CF82] px-4 py-3 rounded-xl shadow-sm"
-          : ""
-        }`}
+      className="w-[60px] h-[60px] flex items-center justify-center"
     >
-      {/* DIA DA SEMANA */}
-      <span
-        className={`text-[12px] tracking-wide ${
-          isToday
-            ? "uppercase font-bold text-black"
-            : "font-medium text-zinc-300"
-        }`}
+      <div
+        className={`flex flex-col items-center justify-center w-full h-full rounded-xl transition-all
+          ${isToday ? "bg-[#E6CF82]" : ""}
+        `}
       >
-        {diasAbrev[index]}
-      </span>
+        <span
+          className={`text-[12px] ${
+            isToday
+              ? "uppercase font-bold text-zinc-800"
+              : "font-medium text-zinc-300"
+          }`}
+        >
+          {diasAbrev[index]}
+        </span>
 
-      {/* NÚMERO */}
-      <span
-        className={`leading-none ${
-          isToday
-            ? "text-xl font-extrabold text-[#2b2b2b]"
-            : "text-base font-normal text-zinc-300"
-        }`}
-      >
-        {date.getDate().toString().padStart(2, '0')}
-      </span>
+        <span
+          className={`leading-none ${
+            isToday
+              ? "text-xl font-extrabold text-zinc-800"
+              : "text-base font-normal text-zinc-300"
+          }`}
+        >
+          {date.getDate().toString().padStart(2, '0')}
+        </span>
+      </div>
     </div>
   );
 })}
