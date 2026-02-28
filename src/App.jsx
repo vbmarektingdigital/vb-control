@@ -788,11 +788,7 @@ export default function App() {
     </div>
 
 {/* BLOCO 2 – CALENDÁRIO REFINADO */}
-<div className="flex flex-col items-center gap-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-
-  <span className="text-[11px] text-zinc-400 tracking-widest">
-    SEMANA {weekId.split('-W')[1]}
-  </span>
+<div className="flex items-center gap-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
   <div className="flex items-center gap-6">
 
@@ -845,8 +841,8 @@ export default function App() {
       <span
         className={`leading-none ${
           isToday
-            ? "text-xl font-extrabold text-black"
-            : "text-lg font-medium text-zinc-200"
+            ? "text-xl font-extrabold text-[#2b2b2b]"
+            : "text-base font-normal text-zinc-300"
         }`}
       >
         {date.getDate().toString().padStart(2, '0')}
