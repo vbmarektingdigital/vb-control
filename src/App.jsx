@@ -787,26 +787,25 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO SEMANAL VISUAL */}
-<div className="flex flex-col items-center gap-2 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+{/* BLOCO 2 – CALENDÁRIO REFINADO */}
+<div className="flex flex-col items-center gap-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
-  {/* Semana número */}
-  <span className="text-xs text-zinc-400 tracking-widest">
+  <span className="text-[11px] text-zinc-400 tracking-widest">
     SEMANA {weekId.split('-W')[1]}
   </span>
 
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-6">
 
     {/* Seta esquerda */}
     <button
       onClick={goToPreviousWeek}
-      className="text-[#6c5ce7] hover:text-[#4f39f6] transition"
+      className="text-[#6c5ce7] text-2xl font-light hover:scale-110 transition"
     >
       ‹
     </button>
 
-    {/* Strip da semana */}
-    <div className="flex bg-[#1f1f1f] rounded-2xl px-4 py-2 gap-6 shadow-lg">
+    {/* Strip */}
+    <div className="flex items-center gap-6 px-6 py-2 rounded-2xl bg-[#2a2a2a]/70 backdrop-blur-md shadow-lg">
 
       {DIAS_SEMANA.map((dia, index) => {
         const date = new Date(start);
@@ -815,19 +814,26 @@ export default function App() {
         const isToday =
           isCurrentWeek && index === todayIndex;
 
+        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
         return (
           <div
             key={dia}
-            className={`flex flex-col items-center text-sm ${
+            className={`flex flex-col items-center transition-all ${
               isToday
                 ? "bg-[#f9a705] text-black px-3 py-1 rounded-xl font-bold"
                 : "text-white"
             }`}
           >
-            <span className="text-xs uppercase tracking-wide">
-              {['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'][index]}
+            <span
+              className={`text-xs ${
+                isToday ? "uppercase" : ""
+              }`}
+            >
+              {diasAbrev[index]}
             </span>
-            <span className="text-lg font-semibold">
+
+            <span className="text-base">
               {date.getDate().toString().padStart(2, '0')}
             </span>
           </div>
@@ -839,7 +845,7 @@ export default function App() {
     {/* Seta direita */}
     <button
       onClick={goToNextWeek}
-      className="text-[#6c5ce7] hover:text-[#4f39f6] transition"
+      className="text-[#6c5ce7] text-2xl font-light hover:scale-110 transition"
     >
       ›
     </button>
@@ -848,7 +854,7 @@ export default function App() {
     {!isCurrentWeek && (
       <button
         onClick={goToCurrentWeek}
-        className="flex items-center gap-2 bg-[#2b2b2b] border border-[#3a3a3a] text-white px-3 py-1 rounded-full text-sm hover:bg-[#3a3a3a] transition"
+        className="flex items-center gap-2 bg-[#3a3a3a] text-white px-4 py-1 rounded-full text-sm hover:bg-[#4a4a4a] transition"
       >
         <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
         Hoje
