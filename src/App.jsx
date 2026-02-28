@@ -787,9 +787,9 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO RESPONSIVO */}
+{/* BLOCO 2 – CALENDÁRIO FINAL MOBILE + DESKTOP */}
 
-<div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+<div className="w-full flex justify-center px-2 md:px-0 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
   <div className="flex items-center gap-3">
 
@@ -799,12 +799,12 @@ export default function App() {
       className="text-[#6c5ce7] hover:scale-110 transition"
     >
       <svg
-        width="40"
-        height="40"
+        width="42"
+        height="42"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2.8"
+        strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -816,14 +816,13 @@ export default function App() {
     <div
       className="
         flex items-center 
-        gap-1 md:gap-1.5 
-        px-2 md:px-3 
-        py-1 
+        gap-1.5
+        px-3
+        py-1
         rounded-2xl 
-        bg-[#4a4a4a]/50 
+        bg-[#4a4a4a]/60
         backdrop-blur-md 
         border border-[#5a5a5a]/40
-        max-w-[95vw]
       "
     >
       {DIAS_SEMANA.map((dia, index) => {
@@ -841,12 +840,12 @@ export default function App() {
             className="px-1 py-1 flex items-center justify-center"
           >
             <div
-              className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
+              className={`flex flex-col items-center justify-center px-2 py-1 rounded-xl transition-all
                 ${isToday ? "bg-[#E4D08A]" : ""}
               `}
             >
               <span
-                className={`text-[10px] md:text-[11px] ${
+                className={`text-[11px] ${
                   isToday
                     ? "uppercase font-bold text-zinc-800"
                     : "font-medium text-zinc-300"
@@ -858,8 +857,8 @@ export default function App() {
               <span
                 className={`leading-none ${
                   isToday
-                    ? "text-base md:text-lg font-extrabold text-zinc-800"
-                    : "text-xs md:text-sm font-normal text-zinc-300"
+                    ? "text-lg font-extrabold text-zinc-800"
+                    : "text-sm font-normal text-zinc-300"
                 }`}
               >
                 {date.getDate().toString().padStart(2, '0')}
@@ -871,19 +870,19 @@ export default function App() {
     </div>
 
     {/* Seta direita + Hoje */}
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3">
 
       <button
         onClick={goToNextWeek}
         className="text-[#6c5ce7] hover:scale-110 transition"
       >
         <svg
-          width="40"
-          height="40"
+          width="42"
+          height="42"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.8"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         >
@@ -891,15 +890,25 @@ export default function App() {
         </svg>
       </button>
 
-      {!isCurrentWeek && (
-        <button
-          onClick={goToCurrentWeek}
-          className="flex items-center gap-2 bg-[#2A2A2C] text-zinc-200 px-4 py-2 rounded-full text-sm hover:bg-[#3a3a3a] transition"
-        >
-          <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
-          Hoje
-        </button>
-      )}
+      {/* HOJE SEMPRE VISÍVEL */}
+      <button
+        onClick={goToCurrentWeek}
+        className="
+          flex items-center gap-2
+          bg-[#3E5664]/60
+          backdrop-blur-md
+          text-white
+          px-4 py-2
+          rounded-full
+          text-sm
+          border border-white/10
+          hover:bg-[#3E5664]/80
+          transition
+        "
+      >
+        <span className="w-2.5 h-2.5 bg-[#FF6A23] rounded-full"></span>
+        Hoje
+      </button>
 
     </div>
 
