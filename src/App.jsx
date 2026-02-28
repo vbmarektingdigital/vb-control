@@ -801,11 +801,10 @@ export default function App() {
     </button>
 
     {/* Strip */}
-    <div className="flex items-center gap-2 px-4 py-2 rounded-2xl 
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl 
   bg-[#4a4a4a]/50 
   backdrop-blur-md 
-  border border-[#5a5a5a]/40 
-  shadow-inner"
+  border border-[#5a5a5a]/40"
 >
 
       {DIAS_SEMANA.map((dia, index) => {
@@ -820,10 +819,10 @@ export default function App() {
   return (
     <div
       key={dia}
-      className="px-3 py-2 flex items-center justify-center"
+      className="px-2 py-1.5 flex items-center justify-center"
     >
       <div
-        className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all
+        className={`flex flex-col items-center justify-center px-2 py-1.5 rounded-xl transition-all
           ${isToday ? "bg-[#E6CF82]" : ""}
         `}
       >
