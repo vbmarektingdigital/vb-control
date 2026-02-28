@@ -801,7 +801,7 @@ export default function App() {
     </button>
 
     {/* Strip */}
-    <div className="flex items-center gap-4 px-5 py-2 rounded-2xl 
+    <div className="flex items-center gap-2 px-4 py-2 rounded-2xl 
   bg-[#4a4a4a]/50 
   backdrop-blur-md 
   border border-[#5a5a5a]/40 
