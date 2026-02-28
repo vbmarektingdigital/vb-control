@@ -805,40 +805,41 @@ export default function App() {
     </button>
 
     {/* Strip */}
-    <div className="flex items-center gap-6 px-6 py-2 rounded-2xl bg-[#2a2a2a]/70 backdrop-blur-md shadow-lg">
+    <div className="flex items-center gap-4 px-5 py-2 rounded-2xl 
+  bg-[#3a3a3a]/60 
+  backdrop-blur-md 
+  border border-[#5a5a5a]/40 
+  shadow-inner"
+>
 
       {DIAS_SEMANA.map((dia, index) => {
-        const date = new Date(start);
-        date.setDate(start.getDate() + index);
+  const date = new Date(start);
+  date.setDate(start.getDate() + index);
 
-        const isToday =
-          isCurrentWeek && index === todayIndex;
+  const isToday =
+    isCurrentWeek && index === todayIndex;
 
-        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 
-        return (
-          <div
-            key={dia}
-            className={`flex flex-col items-center transition-all ${
-              isToday
-                ? "bg-[#f9a705] text-black px-3 py-1 rounded-xl font-bold"
-                : "text-white"
-            }`}
-          >
-            <span
-              className={`text-xs ${
-                isToday ? "uppercase" : ""
-              }`}
-            >
-              {diasAbrev[index]}
-            </span>
+  return (
+    <div
+      key={dia}
+      className={`flex flex-col items-center justify-center transition-all
+        ${isToday
+          ? "bg-[#f9a705] text-black px-3 py-2 rounded-xl font-bold shadow-md"
+          : "text-white"
+        }`}
+    >
+      <span className={`text-[12px] tracking-wide ${isToday ? "uppercase" : ""}`}>
+        {diasAbrev[index]}
+      </span>
 
-            <span className="text-base">
-              {date.getDate().toString().padStart(2, '0')}
-            </span>
-          </div>
-        );
-      })}
+      <span className="text-lg font-semibold leading-none">
+        {date.getDate().toString().padStart(2, '0')}
+      </span>
+    </div>
+  );
+})}
 
     </div>
 
