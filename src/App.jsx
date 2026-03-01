@@ -789,7 +789,7 @@ export default function App() {
 
 {/* BLOCO 2 – CALENDÁRIO RESPONSIVO (COM MÊS DISCRETO) */}
 
-<div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:scale-90 lg:scale-95 origin-center">
+<div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:scale-80 lg:scale-80 origin-center">
 
   <div className="flex items-center gap-2 md:gap-3">
 
