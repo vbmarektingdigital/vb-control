@@ -801,32 +801,52 @@ const handleLogin = () => {
     setDraggedCardId(null);
   };
 
-// BLOQUEIO DE LOGIN
+// TELA DE LOGIN
 if (!isAuthenticated) {
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-[#2b2b2b]">
-      <img src={logo} className="w-24 mb-6" />
-      <div className="bg-white p-6 rounded-xl w-80 space-y-3">
+    <div className="h-screen w-full flex flex-col items-center justify-center bg-[#2b2b2b] text-white">
+
+      {/* Logo */}
+      <img 
+        src={logo} 
+        className="w-28 h-28 object-contain mb-6"
+      />
+
+      {/* Título */}
+      <h1 className="text-2xl font-bold mb-6 tracking-wide">
+        VB Control
+      </h1>
+
+      {/* Inputs */}
+      <div className="w-80 space-y-4">
         <input
           placeholder="Login"
           value={loginName}
           onChange={e => setLoginName(e.target.value)}
-          className="w-full border p-2 rounded-lg"
+          className="w-full bg-white/90 text-black px-4 py-3 rounded-lg outline-none focus:ring-2 focus:ring-purple-500"
         />
+
         <input
           type="password"
           placeholder="Senha"
           value={loginPassword}
           onChange={e => setLoginPassword(e.target.value)}
-          className="w-full border p-2 rounded-lg"
+          className="w-full bg-white/90 text-black px-4 py-3 rounded-lg outline-none focus:ring-2 focus:ring-purple-500"
         />
+
         <button
           onClick={handleLogin}
-          className="w-full bg-indigo-600 text-white py-2 rounded-lg"
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 py-3 rounded-lg font-semibold hover:opacity-90 transition"
         >
           Entrar
         </button>
       </div>
+
+      {/* Rodapé */}
+      <span className="text-xs text-zinc-500 mt-10">
+        by vbmarketingdigital
+      </span>
+
     </div>
   );
 }
