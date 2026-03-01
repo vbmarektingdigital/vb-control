@@ -947,29 +947,27 @@ if (!isAuthenticated) {
   {/* Logo + Menu */}
   <div className="relative">
 
-    <button
-      onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="relative w-14 h-14 flex items-center justify-center"
-    >
+   <button
+  onClick={() => setIsMenuOpen(!isMenuOpen)}
+  className="relative w-14 h-14 flex items-center justify-center rounded-full focus:outline-none"
+>
+  {/* Anel girando elegante (Maior e mais grosso) */}
+  {isMenuOpen && (
+    <div className="absolute -inset-1.5 pointer-events-none">
+      <div className="w-full h-full rounded-full border-[4px] border-transparent border-t-purple-500 border-r-pink-500 animate-spin"></div>
+    </div>
+  )}
 
-      {/* Anel girando elegante */}
-{isMenuOpen && (
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-     <div className="w-full h-full rounded-full border-[2px] border-transparent border-t-purple-500 border-r-pink-500 animate-spin"></div>
-  </div>
-)}
+  {/* Fundo interno (Ajustado para o exato tamanho do logo) */}
+  <div className="absolute inset-0 bg-[#2b2b2b] rounded-full pointer-events-none"></div>
 
-      {/* Fundo interno */}
-      <div className="absolute inset-[4px] bg-[#2b2b2b] rounded-full"></div>
-
-      {/* Logo */}
-      <img
-        src={logo}
-        alt="VB Marketing Digital"
-        className="relative w-full h-full object-cover rounded-full"
-      />
-
-    </button>
+  {/* Logo */}
+  <img
+    src={logo}
+    alt="VB Marketing Digital"
+    className="relative w-full h-full object-cover rounded-full z-10 shadow-sm"
+  />
+</button>
 
     {/* MENU */}
     {isMenuOpen && (
