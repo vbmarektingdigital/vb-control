@@ -951,11 +951,15 @@ if (!isAuthenticated) {
 
     {isMenuOpen && (
   <>
-    {/* Anel girando visível */}
-    <div className="absolute w-16 h-16 rounded-full spin-slow border-[3px] border-transparent border-t-indigo-500 border-r-fuchsia-500"></div>
+    {/* Anel girando */}
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="w-16 h-16 rounded-full spin-slow border-4 border-transparent border-t-indigo-500 border-r-fuchsia-500"></div>
+    </div>
 
     {/* Máscara interna */}
-    <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
+    </div>
   </>
 )}
 
