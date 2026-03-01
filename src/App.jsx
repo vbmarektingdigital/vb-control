@@ -621,13 +621,48 @@ function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop }) {
 
 // --- APP PRINCIPAL ---
 export default function App() {
+
+  // STATES
   const [cards, setCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('Todos');
   const [priorityFilter, setPriorityFilter] = useState('Todos');
   const [draggedCardId, setDraggedCardId] = useState(null);
   const [baseDate, setBaseDate] = useState(new Date());
+const [isAuthenticated, setIsAuthenticated] = useState(false);
+const [currentUser, setCurrentUser] = useState(null);
+const [loginName, setLoginName] = useState('');
+const [loginPassword, setLoginPassword] = useState('');
 
+// USERS
+const USERS = [
+  {
+    id: "gustavo",
+    name: "Gustavo",
+    password: "123",
+    avatar: "/avatars/gustavo.png"
+  },
+  {
+    id: "aline",
+    name: "Aline",
+    password: "123",
+    avatar: "/avatars/aline.png"
+  }
+];
+const handleLogin = () => {
+  const user = USERS.find(
+    u => u.name === loginName && u.password === loginPassword
+  );
+
+  if (user) {
+    setCurrentUser(user);
+    setIsAuthenticated(true);
+  } else {
+    alert("Login inválido.");
+  }
+};
+
+//FUNÇÕES
   function getWeekIdFromDate(date) {
     const target = new Date(date.valueOf());
     const dayNr = (date.getDay() + 6) % 7;
@@ -765,6 +800,36 @@ export default function App() {
     }
     setDraggedCardId(null);
   };
+
+// BLOQUEIO DE LOGIN
+if (!isAuthenticated) {
+  return (
+    <div className="h-screen w-full flex items-center justify-center bg-[#2b2b2b]">
+      <img src={logo} className="w-24 mb-6" />
+      <div className="bg-white p-6 rounded-xl w-80 space-y-3">
+        <input
+          placeholder="Login"
+          value={loginName}
+          onChange={e => setLoginName(e.target.value)}
+          className="w-full border p-2 rounded-lg"
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={loginPassword}
+          onChange={e => setLoginPassword(e.target.value)}
+          className="w-full border p-2 rounded-lg"
+        />
+        <button
+          onClick={handleLogin}
+          className="w-full bg-indigo-600 text-white py-2 rounded-lg"
+        >
+          Entrar
+        </button>
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="h-screen w-full flex flex-col font-sans bg-[#2b2b2b] overflow-hidden">
