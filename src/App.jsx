@@ -949,7 +949,7 @@ if (!isAuthenticated) {
 
     <button
       onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="relative w-14 h-14 flex items-center justify-center"
+      className="relative w-12 h-12 flex items-center justify-center"
     >
 
       {/* Anel girando elegante */}
