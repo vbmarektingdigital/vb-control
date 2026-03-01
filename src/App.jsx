@@ -688,11 +688,13 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loginName, setLoginName] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const handleLogout = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+const handleLogout = () => {
   localStorage.removeItem("vbUser");
   setCurrentUser(null);
   setIsAuthenticated(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
 };
 
   // 🔐 RESTAURA SESSÃO AO ABRIR O SISTEMA
