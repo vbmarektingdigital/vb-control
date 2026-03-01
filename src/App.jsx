@@ -123,7 +123,12 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
   name: doc.name,
   url: `https://drive.google.com/uc?export=download&id=${doc.id}`,
   type: "file",
-  createdAt: new Date().toISOString()
+  createdAt: new Date().toISOString(),
+  createdBy: {
+    id: currentUser.id,
+    name: currentUser.name,
+    avatar: currentUser.avatar
+  }
 }));
 
       onUpdateAttachments([...attachments, ...newFiles]);
@@ -146,7 +151,12 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
   name: newLinkName.trim() || newLinkUrl.trim(),
   url: newLinkUrl.startsWith("http") ? newLinkUrl.trim() : `https://${newLinkUrl.trim()}`,
   type: "link",
-  createdAt: new Date().toISOString()
+  createdAt: new Date().toISOString(),
+  createdBy: {
+    id: currentUser.id,
+    name: currentUser.name,
+    avatar: currentUser.avatar
+  }
 };
     
     onUpdateAttachments([...attachments, linkData]);
@@ -376,82 +386,95 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
   </div>
 )}
         {attachments.map((file) => (
-          <div
-  key={file.id}
-  className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start"
->
-  <div className="flex flex-col pr-2 flex-1">
+  <div
+    key={file.id}
+    className="flex items-start gap-2"
+  >
 
-    <a
-      href={file.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-slate-700 hover:underline truncate"
-    >
-      {file.name}
-    </a>
+    {/* Avatar */}
+    <img
+      src={file.createdBy?.avatar}
+      alt={file.createdBy?.name}
+      className="w-6 h-6 rounded-full object-cover mt-1"
+    />
 
-    <div
-      className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
-        expandedAttachmentId === file.id
-          ? "max-h-24 opacity-100 mt-1"
-          : "max-h-0 opacity-0"
-      }`}
-    >
-      <span className="text-[10px] text-slate-400 italic">
-  Enviado: {file.createdAt
-    ? new Date(file.createdAt).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      })
-    : 'Data não registrada'}
-  {file.createdAt &&
-    ` às ${new Date(file.createdAt).toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    })}`}
-</span>
+    {/* Conteúdo do anexo */}
+    <div className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start flex-1">
+
+      <div className="flex flex-col pr-2 flex-1">
+
+        <a
+          href={file.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-slate-700 hover:underline truncate"
+        >
+          {file.name}
+        </a>
+
+        <div
+          className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
+            expandedAttachmentId === file.id
+              ? "max-h-24 opacity-100 mt-1"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <span className="text-[10px] text-slate-400 italic">
+            Enviado: {file.createdAt
+              ? new Date(file.createdAt).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric'
+                })
+              : 'Data não registrada'}
+            {file.createdAt &&
+              ` às ${new Date(file.createdAt).toLocaleTimeString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}`}
+          </span>
+        </div>
+
+      </div>
+
+      <div className="flex items-center gap-2">
+
+        <button
+          onClick={() =>
+            setExpandedAttachmentId(
+              expandedAttachmentId === file.id ? null : file.id
+            )
+          }
+          className={`transition duration-200 ${
+            expandedAttachmentId === file.id
+              ? "text-indigo-600"
+              : "text-slate-400 hover:text-slate-700"
+          }`}
+        >
+          <Info size={14} />
+        </button>
+
+        {file.type === "link" && (
+          <button
+            onClick={() => handleCopyLink(file.url)}
+            className="text-slate-500 hover:text-indigo-600 transition"
+          >
+            <Copy size={14} />
+          </button>
+        )}
+
+        <button
+          onClick={() => handleDeleteAttachment(file.id)}
+          className="text-red-400 hover:text-red-600 transition"
+        >
+          <Trash2 size={14} />
+        </button>
+
+      </div>
+
     </div>
-
   </div>
-
-  <div className="flex items-center gap-2">
-
-    <button
-      onClick={() =>
-        setExpandedAttachmentId(
-          expandedAttachmentId === file.id ? null : file.id
-        )
-      }
-      className={`transition duration-200 ${
-        expandedAttachmentId === file.id
-          ? "text-indigo-600"
-          : "text-slate-400 hover:text-slate-700"
-      }`}
-    >
-      <Info size={14} />
-    </button>
-
-    {file.type === "link" && (
-      <button
-        onClick={() => handleCopyLink(file.url)}
-        className="text-slate-500 hover:text-indigo-600 transition"
-      >
-        <Copy size={14} />
-      </button>
-    )}
-
-    <button
-      onClick={() => handleDeleteAttachment(file.id)}
-      className="text-red-400 hover:text-red-600 transition"
-    >
-      <Trash2 size={14} />
-    </button>
-
-  </div>
-</div>
-        ))}
+))}
       </div>
 
       <button
