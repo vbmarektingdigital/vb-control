@@ -951,8 +951,8 @@ if (!isAuthenticated) {
 
     {isMenuOpen && (
   <>
-    {/* Anel maior que o logo */}
-    <div className="absolute w-16 h-16 rounded-full spin-slow bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+    {/* Anel girando visível */}
+    <div className="absolute w-16 h-16 rounded-full spin-slow border-[3px] border-transparent border-t-indigo-500 border-r-fuchsia-500"></div>
 
     {/* Máscara interna */}
     <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
