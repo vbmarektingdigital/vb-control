@@ -529,6 +529,19 @@ function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop }) {
       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         {!isEditing && (
           <>
+<button className="relative p-1 hover:bg-slate-100 text-slate-500 rounded group/info">
+  <Info size={14} />
+
+  <div className="absolute right-0 top-6 hidden group-hover/info:block bg-black text-white text-[10px] p-2 rounded shadow-lg whitespace-nowrap z-50">
+    <div>Criado por: {card.createdBy?.name || "Sistema"}</div>
+    <div>
+      {card.createdAt
+        ? new Date(card.createdAt).toLocaleString('pt-BR')
+        : "Data não registrada"}
+    </div>
+  </div>
+</button>
+
             <button onClick={() => setIsEditing(true)} className="p-1 hover:bg-blue-50 text-blue-500 rounded"><Edit2 size={14}/></button>
             <button onClick={() => deleteCard(card.id)} className="p-1 hover:bg-red-50 text-red-500 rounded"><Trash2 size={14}/></button>
           </>
@@ -732,15 +745,20 @@ const handleLogin = () => {
     const cardsDaColuna = cards.filter(c => c.columnId === columnId);
     const nextOrder = cardsDaColuna.length;
     const newCard = {
-      columnId,
-      clientName: 'Novo Cliente',
-      theme: '',
-      status: 'Pendente',
-      comments: [],
-      attachments: [],
-      order: nextOrder,
-      priority: 'Normal'
-    };
+  columnId,
+  clientName: 'Novo Cliente',
+  theme: '',
+  status: 'Pendente',
+  comments: [],
+  attachments: [],
+  order: nextOrder,
+  priority: 'Normal',
+  createdBy: {
+    id: currentUser.id,
+    name: currentUser.name
+  },
+  createdAt: new Date().toISOString()
+};
     await setDoc(doc(db, 'weeks', weekId, 'cards', id), newCard);
   };
 
