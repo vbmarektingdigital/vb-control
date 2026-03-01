@@ -942,65 +942,69 @@ if (!isAuthenticated) {
   <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 relative">
     
     {/* Bloco 1: Logo e Texto */}
-    <div className="flex items-center gap-3 text-left w-full md:w-auto">
-      <div className="relative">
-  <button
-    onClick={() => setIsMenuOpen(!isMenuOpen)}
-    className="relative w-14 h-14 flex items-center justify-center"
-  >
+    <header className="flex items-center gap-3 text-left w-full md:w-auto relative">
 
-    {isMenuOpen && (
-  <>
-    {/* Anel girando */}
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-16 h-16 rounded-full spin-slow border-4 border-transparent border-t-indigo-500 border-r-fuchsia-500"></div>
-    </div>
+  {/* Logo + Menu */}
+  <div className="relative">
 
-    {/* Máscara interna */}
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
-    </div>
-  </>
-)}
-
-    <img
-      src={logo}
-      alt="VB Marketing Digital"
-      className="relative w-14 h-14 object-contain rounded-full"
-    />
-  </button>
-
-  {isMenuOpen && (
-  <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg text-sm z-50 overflow-hidden">
-
-    {/* Usuário logado */}
-    <div className="px-4 py-2 text-xs text-slate-400 border-b">
-      Logado como <span className="font-medium text-slate-600">{currentUser.name}</span>
-    </div>
-
-    {/* Logout */}
     <button
-      onClick={handleLogout}
-      className="w-full flex items-center gap-2 px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition"
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      className="relative w-14 h-14 flex items-center justify-center"
     >
-      <LogOut size={16} />
-      <span className="font-medium">
-        Sair
-      </span>
+
+      {/* Anel girando */}
+      {isMenuOpen && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-16 h-16 rounded-full border-[3px] border-transparent border-t-indigo-500 border-r-purple-500 border-b-pink-500"></div>
+        </div>
+      )}
+
+      {/* Fundo interno */}
+      <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
+
+      {/* Logo */}
+      <img
+        src={logo}
+        alt="VB Marketing Digital"
+        className="relative w-14 h-14 object-contain rounded-full z-10"
+      />
+
     </button>
 
+    {/* MENU */}
+    {isMenuOpen && (
+      <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg text-sm z-50 overflow-hidden">
+
+        <div className="px-4 py-2 text-xs text-slate-400 border-b">
+          Logado como <span className="font-medium text-slate-600">{currentUser.name}</span>
+        </div>
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition"
+        >
+          <LogOut size={16} />
+          <span className="font-medium">
+            Sair
+          </span>
+        </button>
+
+      </div>
+    )}
+
   </div>
-)}
-</div>
-      <div>
-        <h1 className="text-lg font-extrabold text-white">
-          VB Marketing Digital
-        </h1>
-        <p className="text-xs text-slate-100 font-medium mt-1">
-          VB Control | Gestão Semanal
-        </p>
-      </div>
-    </div>
+
+  {/* Título */}
+  <div>
+    <h1 className="text-lg font-extrabold text-white">
+      VB Marketing Digital
+    </h1>
+    <p className="text-xs text-slate-100 font-medium mt-1">
+      VB Control | Gestão Semanal
+    </p>
+  </div>
+
+</header>
 
 {/* BLOCO 2 – CALENDÁRIO RESPONSIVO (COM MÊS DISCRETO) */}
 
