@@ -678,44 +678,59 @@ function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop, currentUs
 export default function App() {
 
   // STATES
-  const [cards, setCards] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('Todos');
-  const [priorityFilter, setPriorityFilter] = useState('Todos');
-  const [draggedCardId, setDraggedCardId] = useState(null);
-  const [baseDate, setBaseDate] = useState(new Date());
-const [isAuthenticated, setIsAuthenticated] = useState(false);
-const [currentUser, setCurrentUser] = useState(null);
-const [loginName, setLoginName] = useState('');
-const [loginPassword, setLoginPassword] = useState('');
+  const [cards, setCards] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('Todos');
+  const [priorityFilter, setPriorityFilter] = useState('Todos');
+  const [draggedCardId, setDraggedCardId] = useState(null);
+  const [baseDate, setBaseDate] = useState(new Date());
 
-// USERS
-const USERS = [
-  {
-    id: "gustavo",
-    name: "Gustavo",
-    password: "123",
-    avatar: "/avatars/gustavo.png"
-  },
-  {
-    id: "aline",
-    name: "Aline",
-    password: "123",
-    avatar: "/avatars/aline.png"
-  }
-];
-const handleLogin = () => {
-  const user = USERS.find(
-    u => u.name === loginName && u.password === loginPassword
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loginName, setLoginName] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
-  if (user) {
-    setCurrentUser(user);
-    setIsAuthenticated(true);
-  } else {
-    alert("Login inválido.");
-  }
-};
+  // 🔐 RESTAURA SESSÃO AO ABRIR O SISTEMA
+  useEffect(() => {
+    const savedUser = localStorage.getItem("vbUser");
+
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setCurrentUser(parsedUser);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // USERS
+  const USERS = [
+    {
+      id: "gustavo",
+      name: "Gustavo",
+      password: "123",
+      avatar: "/avatars/gustavo.png"
+    },
+    {
+      id: "aline",
+      name: "Aline",
+      password: "123",
+      avatar: "/avatars/aline.png"
+    }
+  ];
+
+  // 🔐 LOGIN
+  const handleLogin = () => {
+    const user = USERS.find(
+      u => u.name === loginName && u.password === loginPassword
+    );
+
+    if (user) {
+      localStorage.setItem("vbUser", JSON.stringify(user));
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+    } else {
+      alert("Login inválido.");
+    }
+  };
 
 //FUNÇÕES
   function getWeekIdFromDate(date) {
