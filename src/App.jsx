@@ -57,7 +57,7 @@ async function callGeminiAPI(prompt, systemInstruction) {
 }
 
 // --- COMPONENTES AUXILIARES ---
-function CommentSection({ comments = [], attachments = [], onUpdateComments, onUpdateAttachments, cardTheme, clientName }) {
+function CommentSection({ comments = [], attachments = [], onUpdateComments, onUpdateAttachments, cardTheme, clientName, currentUser }) {
   const [isExpanded, setIsExpanded] = useState(false);
 const [expandedNoteId, setExpandedNoteId] = useState(null);
 const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
@@ -169,10 +169,15 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
     if (!newComment.trim()) return;
     
     const commentData = {
-      id: crypto.randomUUID(),
-      text: newComment.trim(),
-      createdAt: new Date().toISOString()
-    };
+  id: crypto.randomUUID(),
+  text: newComment.trim(),
+  createdAt: new Date().toISOString(),
+  createdBy: {
+    id: currentUser.id,
+    name: currentUser.name,
+    avatar: currentUser.avatar
+  }
+};
     
     onUpdateComments([...comments, commentData]);
     setNewComment('');
@@ -241,55 +246,68 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
       {comments.map((c) => (
   <div
     key={c.id}
-    className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start"
+    className="flex items-start gap-2"
   >
-    <div className="flex flex-col pr-2 flex-1">
-      <p className="text-slate-700 whitespace-pre-wrap">
-        {c.text}
-      </p>
 
-      <div
-  className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
-  expandedNoteId === c.id
-    ? "max-h-24 opacity-100 mt-1"
-    : "max-h-0 opacity-0"
-}`}
->
-  <span className="text-[10px] text-slate-400 italic">
-    Enviado: {new Date(c.createdAt).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    })} às {new Date(c.createdAt).toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    })}
-  </span>
-</div>
-    </div>
+    {/* Avatar */}
+    <img
+      src={c.createdBy?.avatar}
+      alt={c.createdBy?.name}
+      className="w-6 h-6 rounded-full object-cover mt-1"
+    />
 
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() =>
-          setExpandedNoteId(
-            expandedNoteId === c.id ? null : c.id
-          )
-        }
-        className={`transition duration-200 ${
-  expandedNoteId === c.id
-    ? "text-indigo-600"
-    : "text-slate-400 hover:text-slate-700"
-}`}
-      >
-        <Info size={14} />
-      </button>
+    {/* Conteúdo da nota */}
+    <div className="bg-slate-50 border p-2 rounded-lg text-[11px] flex justify-between items-start flex-1">
 
-      <button
-        onClick={() => handleDeleteComment(c.id)}
-        className="text-red-400 hover:text-red-600 transition duration-200"
-      >
-        <Trash2 size={14} />
-      </button>
+      <div className="flex flex-col pr-2 flex-1">
+        <p className="text-slate-700 whitespace-pre-wrap">
+          {c.text}
+        </p>
+
+        <div
+          className={`transition-all duration-300 ease-in-out origin-top transform-gpu overflow-hidden ${
+            expandedNoteId === c.id
+              ? "max-h-24 opacity-100 mt-1"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <span className="text-[10px] text-slate-400 italic">
+            Enviado: {new Date(c.createdAt).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric'
+            })} às {new Date(c.createdAt).toLocaleTimeString('pt-BR', {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() =>
+            setExpandedNoteId(
+              expandedNoteId === c.id ? null : c.id
+            )
+          }
+          className={`transition duration-200 ${
+            expandedNoteId === c.id
+              ? "text-indigo-600"
+              : "text-slate-400 hover:text-slate-700"
+          }`}
+        >
+          <Info size={14} />
+        </button>
+
+        <button
+          onClick={() => handleDeleteComment(c.id)}
+          className="text-red-400 hover:text-red-600 transition duration-200"
+        >
+          <Trash2 size={14} />
+        </button>
+      </div>
+
     </div>
   </div>
 ))}
@@ -617,15 +635,16 @@ function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop }) {
           </p>
           <CommentSection 
             comments={card.comments} 
-            attachments={attachments} 
-            onUpdateComments={(newList) => updateCard(card.id, {...card, comments: newList})} 
-            onUpdateAttachments={(newList) => {
-              setAttachments(newList);
-              updateCard(card.id, {...card, attachments: newList});
-            }} 
-            cardTheme={card.theme} 
-            clientName={card.clientName} 
-          />
+  attachments={attachments} 
+  onUpdateComments={(newList) => updateCard(card.id, {...card, comments: newList})}
+  onUpdateAttachments={(newList) => {
+    setAttachments(newList);
+    updateCard(card.id, {...card, attachments: newList});
+  }}
+  cardTheme={card.theme} 
+  clientName={card.clientName}
+  currentUser={currentUser}
+/>
         </>
       )}
     </div>
