@@ -955,18 +955,18 @@ if (!isAuthenticated) {
       {/* Anel girando elegante */}
 {isMenuOpen && (
   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-    <div className="w-16 h-16 rounded-full border-[3px] border-transparent border-t-purple-500 border-r-pink-500 animate-spin"></div>
+     <div className="w-full h-full rounded-full border-[2px] border-transparent border-t-purple-500 border-r-pink-500 animate-spin"></div>
   </div>
 )}
 
       {/* Fundo interno */}
-      <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
+      <div className="absolute inset-[4px] bg-[#2b2b2b] rounded-full"></div>
 
       {/* Logo */}
       <img
         src={logo}
         alt="VB Marketing Digital"
-        className="relative w-14 h-14 object-contain rounded-full z-10"
+        className="relative w-full h-full object-cover rounded-full"
       />
 
     </button>
