@@ -954,10 +954,10 @@ if (!isAuthenticated) {
 
       {/* Anel girando */}
       {isMenuOpen && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-16 h-16 rounded-full border-[3px] border-transparent border-t-indigo-500 border-r-purple-500 border-b-pink-500"></div>
-        </div>
-      )}
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="w-16 h-16 bg-red-500 animate-spin"></div>
+  </div>
+)}
 
       {/* Fundo interno */}
       <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
