@@ -787,7 +787,7 @@ export default function App() {
       </div>
     </div>
 
-{/* BLOCO 2 – CALENDÁRIO RESPONSIVO (SEM HOJE) */}
+{/* BLOCO 2 – CALENDÁRIO RESPONSIVO (COM MÊS DISCRETO) */}
 
 <div className="w-full flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
 
@@ -813,62 +813,87 @@ export default function App() {
       </svg>
     </button>
 
-    {/* Strip */}
-    <div
-      className="
-        flex items-center 
-        gap-1
-        px-2
-        py-1
-        rounded-2xl 
-        bg-[#4a4a4a]/50 
-        backdrop-blur-md 
-        border border-[#5a5a5a]/40
-        max-w-[92vw]
-      "
-    >
-      {DIAS_SEMANA.map((dia, index) => {
-        const date = new Date(start);
-        date.setDate(start.getDate() + index);
+    {/* Wrapper da strip + mês */}
+    <div className="relative">
 
-        const isToday =
-          isCurrentWeek && index === todayIndex;
+      {/* Cálculo do mês */}
+      {(() => {
+        const startDate = new Date(start);
+        const endDate = new Date(start);
+        endDate.setDate(startDate.getDate() + 6);
 
-        const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        const monthStart = startDate.toLocaleDateString('pt-BR', { month: 'long' });
+        const monthEnd = endDate.toLocaleDateString('pt-BR', { month: 'long' });
+
+        const monthLabel =
+          monthStart === monthEnd
+            ? monthStart.toUpperCase()
+            : `${monthStart.toUpperCase()} | ${monthEnd.toUpperCase()}`;
 
         return (
-          <div
-            key={dia}
-            className="px-0.5 md:px-1 py-1 flex items-center justify-center"
-          >
-            <div
-              className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
-                ${isToday ? "bg-[#E4D08A]" : ""}
-              `}
-            >
-              <span
-                className={`text-[9px] md:text-[11px] ${
-                  isToday
-                    ? "uppercase font-bold text-zinc-800"
-                    : "font-medium text-zinc-300"
-                }`}
-              >
-                {diasAbrev[index]}
-              </span>
-
-              <span
-                className={`leading-none ${
-                  isToday
-                    ? "text-sm md:text-lg font-extrabold text-zinc-800"
-                    : "text-[11px] md:text-sm font-normal text-zinc-300"
-                }`}
-              >
-                {date.getDate().toString().padStart(2, '0')}
-              </span>
-            </div>
+          <div className="absolute -top-4 right-0 text-[9px] md:text-[11px] tracking-widest text-zinc-400 uppercase">
+            {monthLabel}
           </div>
         );
-      })}
+      })()}
+
+      {/* Strip */}
+      <div
+        className="
+          flex items-center 
+          gap-1
+          px-2
+          py-1
+          rounded-2xl 
+          bg-[#4a4a4a]/50 
+          backdrop-blur-md 
+          border border-[#5a5a5a]/40
+          max-w-[92vw]
+        "
+      >
+        {DIAS_SEMANA.map((dia, index) => {
+          const date = new Date(start);
+          date.setDate(start.getDate() + index);
+
+          const isToday =
+            isCurrentWeek && index === todayIndex;
+
+          const diasAbrev = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+          return (
+            <div
+              key={dia}
+              className="px-0.5 md:px-1 py-1 flex items-center justify-center"
+            >
+              <div
+                className={`flex flex-col items-center justify-center px-1.5 md:px-2 py-1 rounded-xl transition-all
+                  ${isToday ? "bg-[#E4D08A]" : ""}
+                `}
+              >
+                <span
+                  className={`text-[9px] md:text-[11px] ${
+                    isToday
+                      ? "uppercase font-bold text-zinc-800"
+                      : "font-medium text-zinc-300"
+                  }`}
+                >
+                  {diasAbrev[index]}
+                </span>
+
+                <span
+                  className={`leading-none ${
+                    isToday
+                      ? "text-sm md:text-lg font-extrabold text-zinc-800"
+                      : "text-[11px] md:text-sm font-normal text-zinc-300"
+                  }`}
+                >
+                  {date.getDate().toString().padStart(2, '0')}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
 
     {/* Seta direita */}
