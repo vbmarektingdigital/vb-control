@@ -506,7 +506,7 @@ const [expandedAttachmentId, setExpandedAttachmentId] = useState(null);
   );
 }
 
-function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop }) {
+function Card({ card, updateCard, deleteCard, onDragStart, onCardDrop, currentUser }) {
   const [isEditing, setIsEditing] = useState(false);
   const [attachments, setAttachments] = useState(card.attachments || []);
   const [editForm, setEditForm] = useState(card);
@@ -1145,6 +1145,7 @@ if (!isAuthenticated) {
                     deleteCard={deleteCard} 
                     onDragStart={(e, id) => setDraggedCardId(id)} 
                     onCardDrop={(targetId) => handleReorder(targetId)} 
+                    currentUser={currentUser}
                   />
                 ))}
             </div>
