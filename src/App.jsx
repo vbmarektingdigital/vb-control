@@ -684,11 +684,16 @@ export default function App() {
   const [priorityFilter, setPriorityFilter] = useState('Todos');
   const [draggedCardId, setDraggedCardId] = useState(null);
   const [baseDate, setBaseDate] = useState(new Date());
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loginName, setLoginName] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const handleLogout = () => {
+  localStorage.removeItem("vbUser");
+  setCurrentUser(null);
+  setIsAuthenticated(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+};
 
   // 🔐 RESTAURA SESSÃO AO ABRIR O SISTEMA
   useEffect(() => {
@@ -936,7 +941,29 @@ if (!isAuthenticated) {
     
     {/* Bloco 1: Logo e Texto */}
     <div className="flex items-center gap-3 text-left w-full md:w-auto">
-      <img src={logo} alt="VB Marketing Digital" className="className=w-14 h-14 object-contain shrink-0" />
+      <div className="relative">
+  <button
+    onClick={() => setIsMenuOpen(!isMenuOpen)}
+    className="flex items-center gap-3"
+  >
+    <img
+      src={logo}
+      alt="VB Marketing Digital"
+      className="w-14 h-14 object-contain"
+    />
+  </button>
+
+  {isMenuOpen && (
+    <div className="absolute left-0 mt-2 w-40 bg-white rounded-lg shadow-lg text-sm text-slate-700 z-50">
+      <button
+        onClick={handleLogout}
+        className="w-full text-left px-4 py-2 hover:bg-slate-100"
+      >
+        Sair
+      </button>
+    </div>
+  )}
+</div>
       <div>
         <h1 className="text-lg font-extrabold text-white">
           VB Marketing Digital
