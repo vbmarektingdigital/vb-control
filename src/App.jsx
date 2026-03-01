@@ -1,7 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import logo from './assets/vb-logo.png';
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, LayoutDashboard, Plus, Trash2, Edit2, Check, X, GripVertical, Building2, Tag, MessageSquare, Send, Sparkles, Loader2, Paperclip, Info, Copy } from 'lucide-react';
+import { Search, Filter, LayoutDashboard, Plus, Trash2, Edit2, Check, X, GripVertical, Building2, Tag, MessageSquare, Send, Sparkles, Loader2, Paperclip, Info, Copy, LogOut } from 'lucide-react';
 
 const GOOGLE_CLIENT_ID = "498011922575-895so7u7j83brjbkaahg7jj5l9o5ql6o.apps.googleusercontent.com";
 
@@ -946,12 +946,23 @@ if (!isAuthenticated) {
       <div className="relative">
   <button
     onClick={() => setIsMenuOpen(!isMenuOpen)}
-    className="flex items-center gap-3"
+    className="relative w-14 h-14 flex items-center justify-center"
   >
+
+    {isMenuOpen && (
+  <>
+    {/* Anel maior que o logo */}
+    <div className="absolute w-16 h-16 rounded-full spin-slow bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+    {/* Máscara interna */}
+    <div className="absolute w-12 h-12 bg-[#2b2b2b] rounded-full"></div>
+  </>
+)}
+
     <img
       src={logo}
       alt="VB Marketing Digital"
-      className="w-14 h-14 object-contain"
+      className="relative w-14 h-14 object-contain rounded-full"
     />
   </button>
 
