@@ -952,10 +952,10 @@ if (!isAuthenticated) {
       className="relative w-14 h-14 flex items-center justify-center"
     >
 
-      {/* Anel girando */}
-      {isMenuOpen && (
+      {/* Anel girando elegante */}
+{isMenuOpen && (
   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-    <div className="w-16 h-16 bg-red-500 animate-spin"></div>
+    <div className="w-16 h-16 rounded-full border-[3px] border-transparent border-t-purple-500 border-r-pink-500 animate-spin"></div>
   </div>
 )}
 
