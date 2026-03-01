@@ -694,7 +694,7 @@ const handleLogout = () => {
   localStorage.removeItem("vbUser");
   setCurrentUser(null);
   setIsAuthenticated(false);
-  
+
 };
 
   // 🔐 RESTAURA SESSÃO AO ABRIR O SISTEMA
@@ -956,15 +956,26 @@ if (!isAuthenticated) {
   </button>
 
   {isMenuOpen && (
-    <div className="absolute left-0 mt-2 w-40 bg-white rounded-lg shadow-lg text-sm text-slate-700 z-50">
-      <button
-        onClick={handleLogout}
-        className="w-full text-left px-4 py-2 hover:bg-slate-100"
-      >
-        Sair
-      </button>
+  <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg text-sm z-50 overflow-hidden">
+
+    {/* Usuário logado */}
+    <div className="px-4 py-2 text-xs text-slate-400 border-b">
+      Logado como <span className="font-medium text-slate-600">{currentUser.name}</span>
     </div>
-  )}
+
+    {/* Logout */}
+    <button
+      onClick={handleLogout}
+      className="w-full flex items-center gap-2 px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition"
+    >
+      <LogOut size={16} />
+      <span className="font-medium">
+        Sair
+      </span>
+    </button>
+
+  </div>
+)}
 </div>
       <div>
         <h1 className="text-lg font-extrabold text-white">
